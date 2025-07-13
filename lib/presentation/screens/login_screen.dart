@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_routines/domain/entities/user/loginUser.dart';
+import 'package:my_routines/domain/entities/user/login_user.dart';
 import 'package:my_routines/presentation/providers/auth_provider.dart';
-import 'package:my_routines/presentation/widgets/Loading_overlay.dart';
 import 'package:my_routines/presentation/widgets/dialog/defauld_dialog.dart';
 import 'package:my_routines/presentation/widgets/forms/text_filed_app.dart';
 import 'package:my_routines/presentation/widgets/forms/text_filed_password.dart';
+import 'package:my_routines/presentation/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -65,7 +65,7 @@ class _LoginViestate extends State<_LoginView> {
     }
 
     void loginUserw() async {
-      final loginUser = Loginuser(
+      final loginUser = LoginUser(
         email: emailController.value.text,
         password: passwordController.value.text,
       );

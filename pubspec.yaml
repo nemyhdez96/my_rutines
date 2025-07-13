@@ -93,3 +93,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# dev_dependencies:
+#   flutter_test:
+#     sdk: flutter
+#   lutter_launcher_icons: ^0.14.4 # Asegúrate de usar la última versión estable
+
+# flutter_launcher_icons:
+#   android: "launcher_icon" # Esto creará un icono adaptable para Android
+#   ios: true
+#   image_path: "assets/icons/icon_principal.jpg" # Ruta a tu imagen de icono
+#   min_sdk_android: 21 # Puedes ajustar esto según el SDK mínimo de tu app
+#   remove_alpha_ios: true # Si tu icono de iOS tiene transparencia, esto la eliminará
