@@ -5,7 +5,7 @@ import 'package:my_routines/domain/datasources/auth/login_datasource.dart';
 import 'package:my_routines/domain/entities/auth/auth.dart';
 import 'package:my_routines/domain/entities/response/response_api.dart';
 import 'package:my_routines/domain/entities/response/response_api_error.dart';
-import 'package:my_routines/domain/entities/user/loginUser.dart';
+import 'package:my_routines/domain/entities/user/login_user.dart';
 import 'package:my_routines/infrastructure/models/auth/auth_model.dart';
 import 'package:my_routines/infrastructure/models/response/response_api_error_model.dart';
 import 'package:my_routines/infrastructure/models/user/login_user_model.dart';
@@ -25,7 +25,7 @@ class LoginDatasourceImpl extends LoginDatasource {
 
   @override
   Future<Either<ResponseApiError, ResponseApi<Auth>>> loginUser(
-    Loginuser loginUser,
+    LoginUser loginUser,
   ) async {
     try {
       final response = await _dio.post(

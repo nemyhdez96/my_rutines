@@ -1,7 +1,7 @@
 
-import 'package:my_routines/domain/entities/user/loginUser.dart';
+import 'package:my_routines/domain/entities/user/login_user.dart';
 
-class LoginUserModel extends Loginuser {
+class LoginUserModel extends LoginUser {
   LoginUserModel({
     required super.email, 
     required super.password
@@ -17,7 +17,7 @@ class LoginUserModel extends Loginuser {
     "password": password
   };
 
-  factory LoginUserModel.fromEntity(Loginuser loginUser) => LoginUserModel(
+  factory LoginUserModel.fromEntity(LoginUser loginUser) => LoginUserModel(
     email: loginUser.email, 
     password: loginUser.password
   );

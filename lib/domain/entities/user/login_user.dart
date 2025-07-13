@@ -1,8 +1,8 @@
-class Loginuser {
+class LoginUser {
   final String email;
   final String password;
 
-  Loginuser({
+  LoginUser({
     required this.email, 
     required this.password
     });

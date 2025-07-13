@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_routines/presentation/widgets/app_material.dart';
-import 'package:my_routines/presentation/widgets/home/bottom_navigation_bar_home.dart';
 
 class RutinasScreen extends StatelessWidget {
   const RutinasScreen({super.key});
@@ -18,7 +17,7 @@ class RutinasScreen extends StatelessWidget {
 class _RutinasScreenPage extends StatefulWidget {
   final String title;
 
-  const _RutinasScreenPage({super.key, required this.title});
+  const _RutinasScreenPage({required this.title});
   @override
   State<StatefulWidget> createState() => _RutinasScreenPageState();
 }
