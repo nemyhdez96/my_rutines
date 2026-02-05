@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_routines/presentation/providers/auth_provider.dart';
+import 'package:my_routines/presentation/providers/auth_provider_my.dart';
 import 'package:provider/provider.dart';
 
 class SideMenu extends StatefulWidget {
@@ -19,7 +19,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     final textStyles = Theme.of(context).textTheme;
-    final authProvider = context.watch<AuthProvider>();
+    final authProvider = context.watch<AuthProviderMy>();
 
     return NavigationDrawer(
       elevation: 1,

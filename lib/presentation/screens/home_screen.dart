@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_routines/presentation/providers/auth_provider.dart';
+import 'package:my_routines/presentation/providers/auth_provider_my.dart';
 import 'package:my_routines/presentation/widgets/app_material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class HomeScreenPage extends StatefulWidget {
 class HomeScreenPageState extends State<HomeScreenPage> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AuthProvider>();
+    final authProvider = context.watch<AuthProviderMy>();
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,

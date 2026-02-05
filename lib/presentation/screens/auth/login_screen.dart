@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_routines/domain/entities/user/login_user.dart';
-import 'package:my_routines/presentation/providers/auth_provider.dart';
+import 'package:my_routines/presentation/providers/auth_provider_my.dart';
 import 'package:my_routines/presentation/widgets/dialog/defauld_dialog.dart';
 import 'package:my_routines/presentation/widgets/forms/text_filed_app.dart';
 import 'package:my_routines/presentation/widgets/forms/text_filed_password.dart';
 import 'package:my_routines/presentation/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -45,7 +46,7 @@ class _LoginViestate extends State<_LoginView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final authProvider = context.watch<AuthProvider>();
+    final authProvider = context.watch<AuthProviderMy>();
     // authProvider.addListener(() {
     //   print("object");
 
@@ -64,12 +65,12 @@ class _LoginViestate extends State<_LoginView> {
       }
     }
 
-    void loginUserw() async {
+    void loginUser(String action) async {
       final loginUser = LoginUser(
         email: emailController.value.text,
         password: passwordController.value.text,
       );
-      await authProvider.loginUser(loginUser);
+      await authProvider.loginFirebase(loginUser, action);
       navegacion();
     }
 
@@ -109,18 +110,18 @@ class _LoginViestate extends State<_LoginView> {
                   width: size.width * 09,
                   child: FilledButton(
                     onPressed: () {
-                      loginUserw();
+                      loginUser("LOGIN");
                     },
                     child: Text("Iniciar sesión"),
                   ),
                 ),
                 TextButton(
                   onPressed: () {
-                    //
-                    simpleDialog(context);
+                    loginUser("CREATE");
                   },
                   child: Text("Crear cuenta"),
                 ),
+                TextButton.icon(onPressed: () {}, icon: Icon(Icons.fingerprint), label: Text("Iniciar sesión con huella")),
               ],
             ),
           ),

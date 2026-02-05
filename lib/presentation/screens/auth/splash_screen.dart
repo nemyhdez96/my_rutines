@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_routines/presentation/providers/auth_provider.dart';
+import 'package:my_routines/presentation/providers/auth_provider_my.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -25,17 +24,16 @@ class _SplashScreenVewState extends State<_SplashScreenVew> {
 
     // Espera al primer frame para evitar redirigir antes de que el splash se muestre
     cargarUsuario();
-  
   }
 
   void cargarUsuario() async {
-    final authProvider = context.read<AuthProvider>();
+    final authProvider = context.read<AuthProviderMy>();
     await Future.delayed(const Duration(seconds: 1));
     await authProvider.loadAuthUserFromPrefs();
     navegar(authProvider);
   }
 
-  void navegar(AuthProvider authProvider) {
+  void navegar(AuthProviderMy authProvider) {
     if (authProvider.authUser != null) {
       context.go('/home');
     } else {

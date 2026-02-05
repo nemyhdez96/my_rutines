@@ -1,8 +1,8 @@
-import 'package:my_routines/domain/entities/user/user.dart';
+import 'package:my_routines/domain/entities/user/user_my.dart';
 
 class Auth {
   final String token;
-  final User usuario;
+  final userMy usuario;
 
   Auth({
     required this.token, 

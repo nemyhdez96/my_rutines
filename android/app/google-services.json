@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1017282167387",
+    "project_id": "my-routines-288c4",
+    "storage_bucket": "my-routines-288c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017282167387:android:5b215280815c15306af57e",
+        "android_client_info": {
+          "package_name": "com.example.my_routines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017282167387-au8gp4reaa8eashudbt5kpfc393qj224.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPsYFjyiTCrIDOG0klSdJsWid4nRWnouw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017282167387-au8gp4reaa8eashudbt5kpfc393qj224.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1017282167387-k763en0qle99gbscfu3ub0fbit3gj50v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myRoutines"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
