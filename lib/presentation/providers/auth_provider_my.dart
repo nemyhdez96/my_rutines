@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_routines/domain/datasources/auth/login_datasource.dart';
 import 'package:my_routines/domain/entities/auth/auth.dart';
 import 'package:my_routines/domain/entities/response/response_api_error.dart';
@@ -20,29 +22,37 @@ class AuthProviderMy extends ChangeNotifier {
   AuthProviderMy({required this.loginDatasource});
 
   Future<void> loginUser(LoginUser loginUser) async {
-    responseApiError = null;
-    _notificarIsLoading(!isLoading);
-    final response = await loginDatasource.loginUser(loginUser);
-    response.fold(
-      (ifLeft) {
-        responseApiError = ifLeft;
-      },
-      (ifRight) {
-        authUser = ifRight.data;
-      },
-    );
-    if (authUser != null) {
-      await _saveAuthUserToPrefs();
+    _notificarIsLoading(true);
+    try {
+      responseApiError = null;
+      final response = await loginDatasource.loginUser(loginUser);
+      response.fold(
+        (ifLeft) {
+          responseApiError = ifLeft;
+        },
+        (ifRight) {
+          authUser = ifRight.data;
+        },
+      );
+      if (authUser != null) {
+        await _saveAuthUserToPrefs();
+      }
+    } catch (e) {
+      debugPrint('Error en loginUser: $e');
+      responseApiError = ResponseApiError(
+        mensaje: 'Ocurrió un error inesperado al iniciar sesión',
+        error: e.toString(),
+      );
+    } finally {
+      _notificarIsLoading(false);
     }
-
-    _notificarIsLoading(!isLoading);
   }
 
   Future<void> loginFirebase(LoginUser loginUser, String action) async {
-    _notificarIsLoading(!isLoading);
-    responseApiError = null;
-    UserCredential? userCredential;
+    _notificarIsLoading(true);
     try {
+      responseApiError = null;
+      UserCredential? userCredential;
       if (action == "LOGIN") {
         userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: loginUser.email,
@@ -55,7 +65,19 @@ class AuthProviderMy extends ChangeNotifier {
               password: loginUser.password,
             );
       }
-      //context.go("/home");
+
+      if (userCredential != null) {
+        authUser = Auth(
+          token: "",
+          usuario: UserMy(
+            uuid: userCredential.user!.uid,
+            email: userCredential.user!.email ?? '',
+            nombre: userCredential.user!.displayName ?? '',
+            activo: true,
+          ),
+        );
+        await _saveAuthUserToPrefs();
+      }
     } on FirebaseAuthException catch (e) {
       String error = 'Error de autenticación: ';
       String mensaje = '';
@@ -77,30 +99,17 @@ class AuthProviderMy extends ChangeNotifier {
           break;
         default:
           error += 'Error desconocido: ';
-          mensaje = e.message!;
+          mensaje = e.message ?? 'Ocurrió un error de autenticación.';
       }
-
       responseApiError = ResponseApiError(mensaje: mensaje, error: error);
     } catch (e) {
-      String error = 'Error de autenticación: ';
-      String mensaje = '';
-      error += 'Error desconocido: ';
-      mensaje = e.toString();
-      responseApiError = ResponseApiError(mensaje: mensaje, error: error);
-    }
-    if (userCredential != null) {
-      authUser = Auth(
-        token: "",
-        usuario: userMy(
-          uuid: userCredential.user!.uid,
-          email: userCredential.user!.email ?? '',
-          nombre: userCredential.user!.displayName ?? '',
-          activo: true,
-        ),
+      responseApiError = ResponseApiError(
+        mensaje: 'Error inesperado',
+        error: e.toString(),
       );
-      await _saveAuthUserToPrefs();
+    } finally {
+      _notificarIsLoading(false);
     }
-    _notificarIsLoading(!isLoading);
   }
 
   Future<void> _saveAuthUserToPrefs() async {
@@ -110,38 +119,118 @@ class AuthProviderMy extends ChangeNotifier {
   }
 
   Future<void> loadAuthUserFromPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final authString = prefs.getString('authUser');
-    final user = FirebaseAuth.instance.currentUser;
-    if (authString != null) {
-      final jsonMap = json.decode(authString);
-      authUser = AuthModel.fromJson(jsonMap);
-      notifyListeners(); // notifica que ya hay usuario cargado
-    }
-    else if (user != null) {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final authString = prefs.getString('authUser');
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (authString != null) {
+        final jsonMap = json.decode(authString);
+        authUser = AuthModel.fromJson(jsonMap);
+      } else if (user != null) {
+        authUser = Auth(
+          token: "",
+          usuario: UserMy(
+            uuid: user.uid,
+            email: user.email ?? '',
+            nombre: user.displayName ?? '',
+            activo: true,
+          ),
+        );
+        await _saveAuthUserToPrefs();
+      } else {
+        authUser = null;
+      }
+    } catch (e) {
+      debugPrint('Error loading auth user from prefs: $e');
       authUser = null;
-      authUser = Auth(
-        token: "",
-        usuario: userMy(
-          uuid: user!.uid,
-          email: user.email ?? '',
-          nombre: user.displayName ?? '',
-          activo: true,
-        ),
-      );
-      await _saveAuthUserToPrefs();
+    } finally {
       notifyListeners();
     }
   }
 
   Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('authUser');
-    notifyListeners();
+    _notificarIsLoading(true);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('authUser');
+
+      // Attempt to disconnect from Google if applicable
+      try {
+        final GoogleSignIn googleSignIn = GoogleSignIn();
+        if (await googleSignIn.isSignedIn()) {
+          await googleSignIn.disconnect();
+        }
+      } catch (e) {
+        debugPrint('Error disconnecting Google: $e');
+      }
+
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      debugPrint('Error al cerrar sesión: $e');
+    } finally {
+      authUser = null;
+      _notificarIsLoading(false);
+    }
   }
 
   _notificarIsLoading(bool loading) {
     isLoading = loading;
     notifyListeners();
+  }
+
+  Future<void> signInWithGoogle() async {
+    _notificarIsLoading(true);
+    try {
+      responseApiError = null;
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        // Login cancelado, salir silenciosamente
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+
+      authUser = Auth(
+        token: "",
+        usuario: UserMy(
+          uuid: userCredential.user!.uid,
+          email: userCredential.user!.email ?? '',
+          nombre: userCredential.user!.displayName ?? '',
+          activo: true,
+        ),
+      );
+      await _saveAuthUserToPrefs();
+    } catch (e) {
+      String error = 'Error de autenticación con Google: ';
+      String mensaje = e.toString();
+      responseApiError = ResponseApiError(mensaje: mensaje, error: error);
+      debugPrint('$error $mensaje');
+    } finally {
+      _notificarIsLoading(false);
+    }
+  }
+
+  bool navegacion(BuildContext context) {
+    if (authUser != null) {
+      context.go("/home");
+      return true;
+    }
+    if (responseApiError != null) {
+      // Keep existing dialog for now, or could change to inline error
+      return false;
+    }
+    return false;
   }
 }

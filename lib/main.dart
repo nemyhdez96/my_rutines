@@ -29,14 +29,13 @@ class MyApp extends StatelessWidget {
         title: 'My routines',
         theme: ThemeData(
           colorSchemeSeed: Colors.cyanAccent,
-
-          // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 8, 5, 33)),
-          // brightness: Brightness.dark
+          brightness: Brightness.light,
+          useMaterial3: true,
         ),
         darkTheme: ThemeData(
           colorSchemeSeed: Colors.cyanAccent,
-          // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 8, 5, 33)),
           brightness: Brightness.dark,
+          useMaterial3: true,
         ),
         themeMode: ThemeMode.system,
       ),
