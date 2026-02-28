@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_routines/presentation/providers/auth_provider.dart';
 import 'package:my_routines/presentation/widgets/app_material.dart';
-import 'package:provider/provider.dart';
+import 'package:my_routines/presentation/widgets/my_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,7 +25,6 @@ class HomeScreenPage extends StatefulWidget {
 class HomeScreenPageState extends State<HomeScreenPage> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AuthProvider>();
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -40,11 +38,157 @@ class HomeScreenPageState extends State<HomeScreenPage> {
       ),
       // bottomNavigationBar: BottomNavigationBarHome(),
       body: Center(
-        child: Column(
-          children: [
-            Text(authProvider.authUser!.usuario.nombre),
-            Text(authProvider.authUser!.usuario.email),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MyCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rutina de hoy',
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Miercoles - piernas y glúteos ❤️❤️ ',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Ver rutina",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MyCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rutina de hoy',
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Miercoles - piernas y glúteos ❤️❤️ ',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Ver rutina",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MyCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rutina de hoy',
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Miercoles - piernas y glúteos ❤️❤️ ',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Ver rutina",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MyCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rutina de hoy',
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Miercoles - piernas y glúteos ❤️❤️ ',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Ver rutina",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MyCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rutina de hoy',
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Miercoles - piernas y glúteos ❤️❤️ ',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Ver rutina",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

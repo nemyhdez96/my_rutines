@@ -1,23 +1,31 @@
-import 'package:my_routines/domain/entities/user/user.dart';
+import 'package:my_routines/domain/entities/user/user_my.dart';
 
-class UserModel extends User{
+class UserModel extends UserMy {
   UserModel({
-    required super.id, 
-    required super.nombre, 
-    required super.email, 
-    required super.activo}
-  );
+    required super.uuid,
+    required super.nombre,
+    required super.email,
+    required super.activo,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    id: json["id"], nombre: json["nombre"], email: json["email"], activo: json["activo"]
+    uuid: json["uuid"],
+    nombre: json["nombre"],
+    email: json["email"],
+    activo: json["activo"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+    "uuid": uuid,
     "nombre": nombre,
     "email": email,
-    "activo": activo
+    "activo": activo,
   };
 
-  factory UserModel.fromEntity(User user) => UserModel(id: user.id, nombre: user.nombre, email: user.email, activo: user.activo);
+  factory UserModel.fromEntity(UserMy user) => UserModel(
+    uuid: user.uuid,
+    nombre: user.nombre,
+    email: user.email,
+    activo: user.activo,
+  );
 }

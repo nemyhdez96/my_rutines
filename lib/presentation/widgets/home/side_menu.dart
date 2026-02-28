@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_routines/presentation/providers/auth_provider.dart';
+import 'package:my_routines/presentation/providers/auth_provider_my.dart';
 import 'package:provider/provider.dart';
 
 class SideMenu extends StatefulWidget {
@@ -19,7 +19,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     final textStyles = Theme.of(context).textTheme;
-    final authProvider = context.watch<AuthProvider>();
+    final authProvider = context.watch<AuthProviderMy>();
 
     return NavigationDrawer(
       elevation: 1,
@@ -37,7 +37,7 @@ class _SideMenuState extends State<SideMenu> {
         Padding(
           padding: EdgeInsets.fromLTRB(20, hasNotch ? 0 : 20, 16, 0),
           child: Text(
-            authProvider.authUser!.usuario.nombre,
+            authProvider.authUser?.usuario.nombre ?? 'Usuario',
             style: textStyles.titleMedium,
           ),
         ),
@@ -45,7 +45,7 @@ class _SideMenuState extends State<SideMenu> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 16, 10),
           child: Text(
-            authProvider.authUser!.usuario.email,
+            authProvider.authUser?.usuario.email ?? 'Sin correo',
             style: textStyles.titleSmall,
           ),
         ),
@@ -67,9 +67,11 @@ class _SideMenuState extends State<SideMenu> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: TextButton(
-            onPressed: () {
-              authProvider.logout();
-              context.go('/login');
+            onPressed: () async {
+              await authProvider.logout();
+              if (context.mounted) {
+                context.go('/login');
+              }
             },
             child: Text('Cerrar sesión'),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_routines/presentation/widgets/app_material.dart';
+import 'package:my_routines/presentation/widgets/my_card.dart';
 
 class EjerciciosScreen extends StatelessWidget {
   const EjerciciosScreen({super.key});
@@ -25,6 +26,7 @@ class _EjerciciosScreenPage extends StatefulWidget {
 class _EjerciciosScreenPageState extends State<_EjerciciosScreenPage> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -38,14 +40,26 @@ class _EjerciciosScreenPageState extends State<_EjerciciosScreenPage> {
               child: ListView.builder(
                 itemCount: 50,
                 itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Text("hola $index"),
-                      TextButton(
-                        onPressed: () {},
-                        child: Icon(Icons.add_box_rounded),
-                      ),
-                    ],
+                  return MyCard(
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/icons/rutina-de-ejercicio.png",
+                          width: size.width * 0.2,
+                          height: 150,
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(width: 25),
+                        Text("holaaa $index"),
+                        SizedBox(
+                          width: 50,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Icon(Icons.add_box_rounded),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
